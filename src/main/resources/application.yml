@@ -1,0 +1,10 @@
+server:
+  port: 8965
+
+
+spring:
+  mvc:
+    mvc:
+      view:
+        suffix: .html
+        static-path-pattern: /**
