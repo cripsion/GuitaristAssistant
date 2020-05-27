@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/static/bootstrap-4.4.1/css/bootstrap.css">
+    <script src="/static/jQuery/jquery-3.5.1.min.js"></script>
+    <script src="/static/plugins/popper.min.js"></script>
+    <script src="/static/bootstrap-4.4.1/js/bootstrap.js"></script>
+    <title>Homepage</title>
+</head>
+<body>
+KEY:
+<div class="container mt-3">
+    <h3>设置下拉菜单</h3>
+    <p>输入框中添加下拉菜单不需要使用 .dropdown 类。</p>
+    <form>
+        <div class="input-group mt-3 mb-3">
+            <div class="input-group-prepend">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                    Tone
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item">Original</a>
+                    <a class="dropdown-item">#</a>
+                    <a class="dropdown-item">b</a>
+                </div>
+            </div>
+            <input type="text" id="keyInput" class="form-control" placeholder="Type in key such as C, G...">
+        </div>
+    </form>
+</div>
+
+    和弦级数走向:
+    <input class='form-control input-lg' id="chordProgression">
+
+    Chords:
+    <input class='form-control input-lg' id="chords">
+
+
+</body>
+</html>
+
+<script type="application/javascript">
+    $("#chordProgression").blur(calcChords);
+
+    function calcChords() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            url: "/toneConverterController/calcChords",
+            data: {key: $("#keyInput").val(), chordProgression: $("#chordProgression").val()},
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (e) {
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        });
+    }
+</script>

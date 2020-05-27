@@ -4,7 +4,5 @@ server:
 
 spring:
   mvc:
-    mvc:
-      view:
-        suffix: .html
-        static-path-pattern: /**
+    view:
+      suffix: .html
