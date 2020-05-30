@@ -11,48 +11,133 @@
     <title>Homepage</title>
 </head>
 <body>
-KEY:
-<div class="container mt-3">
-    <h3>设置下拉菜单</h3>
-    <p>输入框中添加下拉菜单不需要使用 .dropdown 类。</p>
-    <form>
-        <div class="input-group mt-3 mb-3">
-            <div class="input-group-prepend">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-                    Tone
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item">Original</a>
-                    <a class="dropdown-item">#</a>
-                    <a class="dropdown-item">b</a>
+
+<div class="container-fluid">
+    <div class="container">
+        KEY:
+        <div class="row">
+            <div class="container">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="0" id="btn_origin"
+                            onclick="setRisingOrFallingTone($(this))">Origin
+                    </button>
+                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="1" id="btn_#"
+                            onclick="setRisingOrFallingTone($(this))">#
+                    </button>
+                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="-1" id="btn_b"
+                            onclick="setRisingOrFallingTone($(this))">b
+                    </button>
                 </div>
             </div>
-            <input type="text" id="keyInput" class="form-control" placeholder="Type in key such as C, G...">
         </div>
-    </form>
+        <div class="row">
+            <div class="container">
+                <div class="btn-group">
+                    <button type="button" class="btn btn_keys btn-secondary" id="btn_keyC" onclick="setKey($(this))">C</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">D</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">E</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">F</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">G</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">A</button>
+                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">B</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <button type="button" class="btn btn-warning" onclick="flat()">FLAT</button>
+                <button type="button" class="btn btn-warning" onclick="sharp()">SHARP</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        和弦级数走向:
+        <input class='form-control input-lg' id="chordProgression">
+    </div>
+    <div class="container">
+        Chords:
+        <input class='form-control input-lg' id="chordsList">
+    </div>
 </div>
 
-    和弦级数走向:
-    <input class='form-control input-lg' id="chordProgression">
 
-    Chords:
-    <input class='form-control input-lg' id="chords">
 
 
 </body>
 </html>
 
 <script type="application/javascript">
+    var risingOrFallingTone = 0;
+    var key;
+
+    $(function(){
+        $("#btn_origin").click();
+        $("#btn_keyC").click();
+    });
+
+
     $("#chordProgression").blur(calcChords);
+
+    function setRisingOrFallingTone(obj) {
+        $(".btn_risingOrFallingTone").removeClass("btn-primary");
+        $(".btn_risingOrFallingTone").addClass("btn-secondary")
+        obj.removeClass("btn-secondary");
+        obj.addClass("btn-primary");
+        risingOrFallingTone = obj.val();
+    }
+
+    function setKey(obj) {
+        $(".btn_keys").removeClass("btn-primary");
+        $(".btn_keys").addClass("btn-secondary")
+        obj.removeClass("btn-secondary");
+        obj.addClass("btn-primary");
+        key = obj.val();
+    }
+    
+    function flat() {
+        // var currentKey = key;
+        // var currentRFTone = risingOrFallingTone;
+        if(risingOrFallingTone === 1) {
+            if(key === "G") {
+                key = "A";
+            } else {
+                key += 1;
+            }
+            risingOrFallingTone=0;
+
+        }
+        if(currentKey === "C" && currentRFTone === 0) {
+
+        }
+
+    }
+    
+    function sharp() {
+        
+    }
+
+    function refreshButton() {
+        $("button[class='btn_risingOrFallingTone'][value=" + risingOrFallingTone).addClass("btn-primary");
+        $("button[class='btn_keys'][value=" + risingOrFallingTone).addClass("btn-primary");
+    }
 
     function calcChords() {
         $.ajax({
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
             url: "/toneConverterController/calcChords",
-            data: {key: $("#keyInput").val(), chordProgression: $("#chordProgression").val()},
+            data: {
+                key: key,
+                chordProgression: $("#chordProgression").val(),
+                risingOrFallingTone: risingOrFallingTone
+            },
             success: function (result) {
-                console.log(result);
+                var chords = ""
+                for(var i in result) {
+                    chords += result[i];
+                    chords += " ";
+                }
+                $("#chordsList").val(chords);
             },
             error: function (e) {
                 console.log(e.status);
