@@ -1,10 +1,10 @@
 package com.cripsion.guitaristassistant.entities;
 
-import static com.cripsion.guitaristassistant.Constants.UPPER_OR_LOWER_KEY_MAP;
+import static com.cripsion.guitaristassistant.Constants.*;
 
 public class Chord {
     private String tone;    //C
-    private int upperOrLowerKey;    //0-origin, 1-#, 2-b.
+    private int flatOrSharp;    //0:origin, 1:#, -1:b.
     private String fullName; //#Cm
     private String chordType;    //m
     private String fullType;    //major
@@ -15,8 +15,6 @@ public class Chord {
 
     public void setChordType(String chordType) {
         this.chordType = chordType;
-        String fullName = UPPER_OR_LOWER_KEY_MAP.get(this.getUpperOrLowerKey()) + this.getTone() + this.getChordType();
-        this.fullName = fullName;
     }
 
     public String getFullType() {
@@ -27,17 +25,17 @@ public class Chord {
         this.fullType = fullType;
     }
 
-    public int getUpperOrLowerKey() {
-        return upperOrLowerKey;
+    public int getFlatOrSharp() {
+        return flatOrSharp;
     }
 
-    public void setUpperOrLowerKey(int upperOrLowerKey) {
-        this.upperOrLowerKey = upperOrLowerKey;
-        String fullName = UPPER_OR_LOWER_KEY_MAP.get(this.getUpperOrLowerKey()) + this.getTone() + this.getChordType();
-        this.fullName = fullName;
+    public void setFlatOrSharp(int flatOrSharp) {
+        this.flatOrSharp = flatOrSharp;
     }
 
     public String getFullName() {
+        String fullName = FLAT_OR_SHARP_MAP.get(this.getFlatOrSharp()) + this.getTone() + this.getChordType();
+        this.setFullName(fullName);
         return fullName;
     }
 
@@ -51,7 +49,5 @@ public class Chord {
 
     public void setTone(String tone) {
         this.tone = tone;
-        String fullName = UPPER_OR_LOWER_KEY_MAP.get(this.getUpperOrLowerKey()) + this.getTone() + this.getChordType();
-        this.fullName = fullName;
     }
 }

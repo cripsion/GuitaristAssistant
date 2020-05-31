@@ -14,32 +14,38 @@
 
 <div class="container-fluid">
     <div class="container">
-        KEY:
+<!--        KEY:-->
+<!--        <div class="row">-->
+<!--            <div class="container">-->
+<!--                <div class="btn-group">-->
+<!--                    <button type="button" class="btn btn-secondary btn_flatOrSharp" value="0" id="btn_origin"-->
+<!--                            onclick="setflatOrSharp($(this))">Origin-->
+<!--                    </button>-->
+<!--                    <button type="button" class="btn btn-secondary btn_flatOrSharp" value="1" id="btn_#"-->
+<!--                            onclick="setflatOrSharp($(this))">#-->
+<!--                    </button>-->
+<!--                    <button type="button" class="btn btn-secondary btn_flatOrSharp" value="-1" id="btn_b"-->
+<!--                            onclick="setflatOrSharp($(this))">b-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="row">
+            KEY:
             <div class="container">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="0" id="btn_origin"
-                            onclick="setRisingOrFallingTone($(this))">Origin
-                    </button>
-                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="1" id="btn_#"
-                            onclick="setRisingOrFallingTone($(this))">#
-                    </button>
-                    <button type="button" class="btn btn-secondary btn_risingOrFallingTone" value="-1" id="btn_b"
-                            onclick="setRisingOrFallingTone($(this))">b
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="container">
-                <div class="btn-group">
-                    <button type="button" class="btn btn_keys btn-secondary" id="btn_keyC" onclick="setKey($(this))">C</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">D</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">E</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">F</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">G</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">A</button>
-                    <button type="button" class="btn btn_keys btn-secondary" onclick="setKey($(this))">B</button>
+                    <button type="button" class="btn btn_keys btn-secondary" id="btn_keyC" value="3" onclick="setKey($(this))">C</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="4" onclick="setKey($(this))">#C</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="5" onclick="setKey($(this))">D</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="6" onclick="setKey($(this))">#D</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="7" onclick="setKey($(this))">E</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="8" onclick="setKey($(this))">F</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="9" onclick="setKey($(this))">#F</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="10" onclick="setKey($(this))">G</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="11" onclick="setKey($(this))">#G</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="0" onclick="setKey($(this))">A</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="1" onclick="setKey($(this))">#A</button>
+                    <button type="button" class="btn btn_keys btn-secondary" value="2" onclick="setKey($(this))">B</button>
                 </div>
             </div>
         </div>
@@ -51,11 +57,11 @@
         </div>
     </div>
     <div class="container">
-        和弦级数走向:
+        Chord Progression:
         <input class='form-control input-lg' id="chordProgression">
     </div>
     <div class="container">
-        Chords:
+        Chords Playing:
         <input class='form-control input-lg' id="chordsList">
     </div>
 </div>
@@ -67,7 +73,7 @@
 </html>
 
 <script type="application/javascript">
-    var risingOrFallingTone = 0;
+    var flatOrSharp = 0;
     var key;
 
     $(function(){
@@ -78,12 +84,12 @@
 
     $("#chordProgression").blur(calcChords);
 
-    function setRisingOrFallingTone(obj) {
-        $(".btn_risingOrFallingTone").removeClass("btn-primary");
-        $(".btn_risingOrFallingTone").addClass("btn-secondary")
+    function setflatOrSharp(obj) {
+        $(".btn_flatOrSharp").removeClass("btn-primary");
+        $(".btn_flatOrSharp").addClass("btn-secondary")
         obj.removeClass("btn-secondary");
         obj.addClass("btn-primary");
-        risingOrFallingTone = obj.val();
+        flatOrSharp = obj.val();
     }
 
     function setKey(obj) {
@@ -96,14 +102,14 @@
     
     function flat() {
         // var currentKey = key;
-        // var currentRFTone = risingOrFallingTone;
-        if(risingOrFallingTone === 1) {
+        // var currentRFTone = flatOrSharp;
+        if(flatOrSharp === 1) {
             if(key === "G") {
                 key = "A";
             } else {
                 key += 1;
             }
-            risingOrFallingTone=0;
+            flatOrSharp=0;
 
         }
         if(currentKey === "C" && currentRFTone === 0) {
@@ -117,8 +123,8 @@
     }
 
     function refreshButton() {
-        $("button[class='btn_risingOrFallingTone'][value=" + risingOrFallingTone).addClass("btn-primary");
-        $("button[class='btn_keys'][value=" + risingOrFallingTone).addClass("btn-primary");
+        $("button[class='btn_flatOrSharp'][value=" + flatOrSharp).addClass("btn-primary");
+        $("button[class='btn_keys'][value=" + flatOrSharp).addClass("btn-primary");
     }
 
     function calcChords() {
@@ -129,7 +135,7 @@
             data: {
                 key: key,
                 chordProgression: $("#chordProgression").val(),
-                risingOrFallingTone: risingOrFallingTone
+                flatOrSharp: flatOrSharp
             },
             success: function (result) {
                 var chords = ""
