@@ -2,6 +2,7 @@ package com.cripsion.guitaristassistant;
 
 import com.cripsion.guitaristassistant.entities.Tones;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
