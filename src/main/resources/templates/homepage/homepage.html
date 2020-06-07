@@ -49,20 +49,25 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="container">
-                <button type="button" class="btn btn-warning" onclick="flat()">FLAT</button>
-                <button type="button" class="btn btn-warning" onclick="sharp()">SHARP</button>
-            </div>
-        </div>
     </div>
-    <div class="container">
+    <div class="container" style="margin-bottom: 10px;">
         Chord Progression:
         <input class='form-control input-lg' id="chordProgression">
+    </div>
+    <div class="row">
+        <div class="container">
+            <button type="button" class="btn btn-warning" onclick="showResult()">GO!</button>
+            <button type="button" class="btn btn-warning" onclick="flat()">FLAT</button>
+            <button type="button" class="btn btn-warning" onclick="sharp()">SHARP</button>
+        </div>
     </div>
     <div class="container">
         Chords Playing:
         <input class='form-control input-lg' id="chordsList">
+    </div>
+    <div class="container">
+        Pitches in the Chords:
+        <input class='form-control input-lg' id="pitchesList">
     </div>
 </div>
 
@@ -81,16 +86,10 @@
         $("#btn_keyC").click();
     });
 
-
-    $("#chordProgression").blur(calcChords);
-
-    function setflatOrSharp(obj) {
-        $(".btn_flatOrSharp").removeClass("btn-primary");
-        $(".btn_flatOrSharp").addClass("btn-secondary")
-        obj.removeClass("btn-secondary");
-        obj.addClass("btn-primary");
-        flatOrSharp = obj.val();
+    function showResult() {
+        calcChords();
     }
+
 
     function setKey(obj) {
         $(".btn_keys").removeClass("btn-primary");
@@ -99,27 +98,23 @@
         obj.addClass("btn-primary");
         key = obj.val();
     }
-    
+
     function flat() {
-        // var currentKey = key;
-        // var currentRFTone = flatOrSharp;
-        if(flatOrSharp === 1) {
-            if(key === "G") {
-                key = "A";
-            } else {
-                key += 1;
-            }
-            flatOrSharp=0;
-
+        var flatKey = parseInt(key) - 1;
+        if (flatKey < 0) {
+            flatKey = flatKey + 12;
         }
-        if(currentKey === "C" && currentRFTone === 0) {
-
-        }
-
+        $("button[class*='btn_keys'][value=" + flatKey + "]").click();
+        calcChords();
     }
-    
+
     function sharp() {
-        
+        var sharpKey = parseInt(key) + 1;
+        if (sharpKey > 11) {
+            sharpKey = sharpKey - 12;
+        }
+        $("button[class*='btn_keys'][value=" + sharpKey + "]").click();
+        calcChords();
     }
 
     function refreshButton() {
@@ -128,6 +123,9 @@
     }
 
     function calcChords() {
+        if($("#chordProgression").val() == "") {
+            return;
+        }
         $.ajax({
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
