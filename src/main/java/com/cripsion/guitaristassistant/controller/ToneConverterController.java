@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 import static com.cripsion.guitaristassistant.Constants.CHORD_TYPE_MAP;
 import static com.cripsion.guitaristassistant.Constants.KEY_C_CHORD_SEQUENCE;
 
+/**
+ * This controller is to handle the biz of converting chord progression to chords list.
+ */
 @Controller
 @RequestMapping("/toneConverterController")
 public class ToneConverterController {
