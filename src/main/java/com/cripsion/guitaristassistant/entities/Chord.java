@@ -1,13 +1,20 @@
 package com.cripsion.guitaristassistant.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.cripsion.guitaristassistant.Constants.*;
 
+/**
+ * Entity for describing a chord
+ */
 public class Chord {
-    private String tone;    //C
+    private String root;    //C
     private int flatOrSharp;    //0:origin, 1:#, -1:b.
     private String fullName; //#Cm
     private String chordType;    //m
-    private String fullType;    //major
+    private String chordFullType;    //major
+    private List<Pitch> pitchesList;    //For traid C:  pitches are C/E/G
 
     public String getChordType() {
         return chordType;
@@ -17,12 +24,12 @@ public class Chord {
         this.chordType = chordType;
     }
 
-    public String getFullType() {
-        return fullType;
+    public String getChordFullType() {
+        return chordFullType;
     }
 
-    public void setFullType(String fullType) {
-        this.fullType = fullType;
+    public void setChordFullType(String chordFullType) {
+        this.chordFullType = chordFullType;
     }
 
     public int getFlatOrSharp() {
@@ -34,7 +41,7 @@ public class Chord {
     }
 
     public String getFullName() {
-        String fullName = FLAT_OR_SHARP_MAP.get(this.getFlatOrSharp()) + this.getTone() + this.getChordType();
+        String fullName = FLAT_OR_SHARP_MAP.get(this.getFlatOrSharp()) + this.getRoot() + this.getChordType();
         this.setFullName(fullName);
         return fullName;
     }
@@ -43,11 +50,22 @@ public class Chord {
         this.fullName = fullName;
     }
 
-    public String getTone() {
-        return tone;
+    public String getRoot() {
+        return root;
     }
 
-    public void setTone(String tone) {
-        this.tone = tone;
+    public void setRoot(String root) {
+        this.root = root;
+    }
+
+    public List<Pitch> getPitchesList() {
+        return pitchesList;
+    }
+
+    public void setPitchesList() {
+        List<Pitch> pitchesList  = new ArrayList<Pitch>();
+//        if(chordFullType.equals("major")) {
+//            KEY_C_CHORD_SEQUENCE.get()
+//        }
     }
 }

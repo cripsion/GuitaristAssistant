@@ -1,18 +1,21 @@
 package com.cripsion.guitaristassistant.entities;
 
-public class Tones implements Cloneable {
-    private int sequence;
+/**
+ *Entity for describing a pitch in a chord
+ */
+public class Pitch implements Cloneable {
+    private int sequence;   //序号
     private String name;
     private int progression;    //级数
 
-    public Tones(){}
+    public Pitch(){}
 
-    public Tones(int seq, String name) {
+    public Pitch(int seq, String name) {
        this.sequence = seq;
        this.name = name;
     }
 
-    public Tones(int seq, String name, int progression) {
+    public Pitch(int seq, String name, int progression) {
         this.sequence = seq;
         this.name = name;
         this.progression = progression;
@@ -67,15 +70,15 @@ public class Tones implements Cloneable {
     }
 
     @Override
-    public Tones clone() {
-        Tones tone = null;
+    public Pitch clone() {
+        Pitch pitch = null;
         try {
-            tone = (Tones) super.clone();
+            pitch = (Pitch) super.clone();
             //deep copy
-            tone = new Tones(tone.getSequence(), tone.getName(), tone.getProgression());
+            pitch = new Pitch(pitch.getSequence(), pitch.getName(), pitch.getProgression());
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        return tone;
+        return pitch;
     }
 }
