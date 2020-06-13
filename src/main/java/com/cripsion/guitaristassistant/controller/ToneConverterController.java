@@ -29,14 +29,9 @@ public class ToneConverterController {
 
     @PostMapping("/calcChords")
     @ResponseBody
-    public List calcChords(@RequestParam(value = "key", required = false) Integer key,  //also means the difference to key C
+    public List<Chord> calcChords(@RequestParam(value = "key", required = false) Integer key,  //also means the difference to key C
                            @RequestParam(value = "chordProgression", required = false) String chordProgression) {
-        List<Pitch> thisKeyChordSequence = utilsService.getPitches(key);
-        for (int i = 0; i < thisKeyChordSequence.size(); i++) {
-            Pitch thisTone = thisKeyChordSequence.get(i);
-            thisTone.setSequence(i);
-            thisTone.setProgression(i);
-        }
+        List<Pitch> thisKeyPitchesList = utilsService.getAllPitchesInOneKey(key);
 
         List<Integer> chordProgressionList = Arrays.asList(chordProgression.split("")).stream().map(k -> Integer.valueOf(k)).collect(Collectors.toList());
         List chordsList = new ArrayList();
@@ -44,8 +39,10 @@ public class ToneConverterController {
             Chord thisChord = new Chord();
             thisChord.setChordType(CHORD_TYPE_MAP.get(chordNumber));
             thisChord.setChordFullType(CHORD_TYPE_MAP_FULL.get(chordNumber));
-            thisChord.setRoot((thisKeyChordSequence.stream().filter(chord -> chord.getProgression() == chordNumber)).collect(Collectors.toList()).get(0).getName());
-            chordsList.add(thisChord.getFullName());
+            thisChord.setRoot((thisKeyPitchesList.stream().filter(pitch -> pitch.getProgression() == chordNumber)).collect(Collectors.toList()).get(0).getName());
+            thisChord.setFullName(thisChord.getFullName());
+            thisChord.setPitchesList(utilsService.getPitchesInOneChord(thisKeyPitchesList, thisChord.getRoot(), thisChord.getChordFullType()));
+            chordsList.add(thisChord);
         }
         return chordsList;
     }

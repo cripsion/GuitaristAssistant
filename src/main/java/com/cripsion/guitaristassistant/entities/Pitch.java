@@ -42,31 +42,8 @@ public class Pitch implements Cloneable {
         return progression;
     }
 
-    public void setProgression(int sequence) {
-        switch (sequence) {
-            case 0:
-                this.progression = 1;
-                break;
-            case 2:
-                this.progression = 2;
-                break;
-            case 4:
-                this.progression = 3;
-                break;
-            case 5:
-                this.progression = 4;
-                break;
-            case 7:
-                this.progression = 5;
-                break;
-            case 9:
-                this.progression = 6;
-                break;
-            case 11:
-                this.progression = 7;
-                break;
-        }
-
+    public void setProgression(int progression) {
+        this.progression = progression;
     }
 
     @Override

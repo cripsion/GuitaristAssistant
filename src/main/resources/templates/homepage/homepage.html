@@ -63,7 +63,7 @@
     </div>
     <div class="container">
         Chords Playing:
-        <input class='form-control input-lg' id="chordsList">
+        <input class='form-control input-lg' id="chordsNameList">
     </div>
     <div class="container">
         Pitches in the Chords:
@@ -130,18 +130,27 @@
             type: "POST",
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
             url: "/toneConverterController/calcChords",
+            dataType:"JSON",
             data: {
                 key: key,
                 chordProgression: $("#chordProgression").val(),
                 flatOrSharp: flatOrSharp
             },
             success: function (result) {
-                var chords = ""
+                var chordsNames = "";
+                let totalPitchesList = "";
                 for(var i in result) {
-                    chords += result[i];
-                    chords += " ";
+                    chordsNames += result[i].fullName;
+                    chordsNames += " ";
+                    let thisPitchesList = "[" + result[i].fullName + ":";
+                    for(let j in result[i].pitchesList) {
+                        thisPitchesList += (result[i].pitchesList)[j].name;
+                    }
+                    thisPitchesList += "]";
+                    totalPitchesList =totalPitchesList + thisPitchesList + " ";
                 }
-                $("#chordsList").val(chords);
+                $("#chordsNameList").val(chordsNames);
+                $("#pitchesList").val(totalPitchesList);
             },
             error: function (e) {
                 console.log(e.status);

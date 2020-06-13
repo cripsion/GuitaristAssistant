@@ -62,10 +62,7 @@ public class Chord {
         return pitchesList;
     }
 
-    public void setPitchesList() {
-        List<Pitch> pitchesList  = new ArrayList<Pitch>();
-//        if(chordFullType.equals("major")) {
-//            KEY_C_CHORD_SEQUENCE.get()
-//        }
+    public void setPitchesList(List<Pitch> pitchesList) {
+        this.pitchesList = pitchesList;
     }
 }
