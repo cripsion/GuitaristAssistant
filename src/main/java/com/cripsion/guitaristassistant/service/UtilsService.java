@@ -1,6 +1,5 @@
 package com.cripsion.guitaristassistant.service;
 
-import com.cripsion.guitaristassistant.entities.Chord;
 import com.cripsion.guitaristassistant.entities.Pitch;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,8 @@ public class UtilsService {
             pitchesList.add(pitch.clone());
         }
 
-        pitchesList = pitchesList.stream().map(chordConverter(key, pitchesList)).collect(Collectors.toList());
+        List<Pitch> copyOfPitchesList = pitchesList;
+        pitchesList = pitchesList.stream().map(pitch -> copyOfPitchesList.get((pitch.getSequence() + key) % 12)).collect(Collectors.toList());
         for (int i = 0; i < pitchesList.size(); i++) {
             Pitch thisPitch = pitchesList.get(i);
             thisPitch.setSequence(i);
@@ -58,10 +58,6 @@ public class UtilsService {
         }
         
         return res;
-    }
-
-    private Function<Pitch, Pitch> chordConverter(int key, List<Pitch> pitchesList) {
-        return pitch -> pitchesList.get((pitch.getSequence() + key) % 12);
     }
 
     private int progressionMapping(int sequence) {
